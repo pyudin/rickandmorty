@@ -7,6 +7,7 @@ function Characters() {
     "https://rickandmortyapi.com/api/character"
   );
   const [filterInput, setFilterInput] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("name");
 
   useEffect(() => {
     fetchItem();
@@ -38,16 +39,36 @@ function Characters() {
     setFilterInput(e.target.value);
   };
 
+  const selectFilter = (e) => {
+    let idx = e.target.selectedIndex;
+    let dataset = e.target.options[idx].value;
+    setSelectedFilter(dataset);
+  };
   return (
     <div>
       <div>Characters</div>
       <div>
-        <input onChange={filterInputHandler} value={filterInput} />
+        <select id="cars" onChange={selectFilter} className="filter">
+          <option value="name" selected>
+            Name
+          </option>
+          <option value="gender">Gender</option>
+          <option value="species">Species</option>
+          <option value="status">Status</option>
+        </select>
+        <input
+          onChange={filterInputHandler}
+          value={filterInput}
+          className="filter"
+        />
       </div>
       <div className="shop">
         <button onClick={() => fetchItem(nextUrl)}>Next</button>
         {items
-          .filter((elem) => elem.name.toLowerCase().indexOf(filterInput) > -1)
+          .filter(
+            (elem) =>
+              elem[selectedFilter].toLowerCase().indexOf(filterInput) > -1
+          )
           .map((item) => (
             <Link to={`/characters/${item.id}`} className="link">
               <div className="card" key={item.id}>

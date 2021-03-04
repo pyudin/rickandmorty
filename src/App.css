@@ -55,3 +55,8 @@ nav {
   text-decoration: none;
   margin: 15px;
 }
+
+.filter {
+  padding: 5px;
+  margin: 10px;
+}
