@@ -10,18 +10,30 @@ function Locations() {
   const [selectedFilter, setSelectedFilter] = useState("name");
 
   useEffect(() => {
-    fetchItem(nextUrl);
+    fetchItem();
   }, []);
 
-  const fetchItem = async (url) => {
+  useEffect(() => {
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [nextUrl]);
+
+  const fetchItem = async () => {
     if (nextUrl === null) return;
-    const data = await fetch(url);
-    const item = await data.json();
-    console.log(item.results);
-    setItems((prevItems) => [...prevItems, ...item.results]);
-    setNextUrl(item.info.next);
+    const data = await fetch(nextUrl);
+    const el = await data.json();
+    setItems((prevItems) => [...prevItems, ...el.results]);
+    setNextUrl(el.info.next);
   };
 
+  //Infinite scroll
+  const onScroll = () => {
+    let nearBottom =
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
+    if (nearBottom) fetchItem();
+  };
+
+  // Filter
   const filterInputHandler = (e) => {
     setFilterInput(e.target.value);
   };
@@ -30,6 +42,10 @@ function Locations() {
     let idx = e.target.selectedIndex;
     let dataset = e.target.options[idx].value;
     setSelectedFilter(dataset);
+  };
+
+  const clearHandler = () => {
+    setFilterInput("");
   };
 
   return (
@@ -48,7 +64,9 @@ function Locations() {
           value={filterInput}
           className="filter"
         />
-        <button>Clear Filter</button>
+        <button className="btn-primary" onClick={clearHandler}>
+          Clear Filter
+        </button>
       </div>
       <div className="shop">
         {items
@@ -65,7 +83,6 @@ function Locations() {
               </div>
             </Link>
           ))}
-        <button onClick={() => fetchItem(nextUrl)}>Next</button>
       </div>
     </div>
   );

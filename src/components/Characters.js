@@ -9,35 +9,28 @@ function Characters() {
   const [filterInput, setFilterInput] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("name");
 
-  //Infinite scroll
-  const onScroll = () => {
-    let nearBottom =
-      window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
-    console.log(nextUrl);
-    // if (nearBottom) fetchItem();
-    return nearBottom;
-  };
   useEffect(() => {
     fetchItem();
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    fetchItem();
-  }, [onScroll]);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [nextUrl]);
 
   const fetchItem = async () => {
     if (nextUrl === null) return;
     const data = await fetch(nextUrl);
     const el = await data.json();
-    console.log(el);
     setItems((prevItems) => [...prevItems, ...el.results]);
-    setNextUrl((prev) => {
-      console.log("prev  ", prev);
-      console.log("set ", el.info.next);
-      return el.info.next;
-    });
+    setNextUrl(el.info.next);
+  };
+
+  //Infinite scroll
+  const onScroll = () => {
+    let nearBottom =
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
+    if (nearBottom) fetchItem();
   };
 
   // Filter
@@ -49,6 +42,10 @@ function Characters() {
     let idx = e.target.selectedIndex;
     let dataset = e.target.options[idx].value;
     setSelectedFilter(dataset);
+  };
+
+  const clearHandler = () => {
+    setFilterInput("");
   };
 
   return (
@@ -67,6 +64,9 @@ function Characters() {
           value={filterInput}
           className="filter"
         />
+        <button className="btn-primary" onClick={clearHandler}>
+          Clear Filter
+        </button>
       </div>
       <div className="shop">
         {items
@@ -88,7 +88,6 @@ function Characters() {
             </Link>
           ))}
       </div>
-      <button onClick={() => fetchItem(nextUrl)}>Next</button>
     </div>
   );
 }

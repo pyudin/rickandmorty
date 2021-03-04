@@ -60,3 +60,9 @@ nav {
   padding: 5px;
   margin: 10px;
 }
+
+.btn-primary {
+  padding: 5px;
+  background-color: #ffffff;
+  border-radius: 4px;
+}
