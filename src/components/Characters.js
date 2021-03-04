@@ -9,11 +9,23 @@ function Characters() {
   const [filterInput, setFilterInput] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("name");
 
+  //Infinite scroll
+  const onScroll = () => {
+    let nearBottom =
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
+    console.log(nextUrl);
+    // if (nearBottom) fetchItem();
+    return nearBottom;
+  };
   useEffect(() => {
     fetchItem();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    fetchItem();
+  }, [onScroll]);
 
   const fetchItem = async () => {
     if (nextUrl === null) return;
@@ -28,13 +40,7 @@ function Characters() {
     });
   };
 
-  const onScroll = () => {
-    let nearBottom =
-      window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
-    console.log();
-    if (nearBottom) fetchItem();
-  };
-
+  // Filter
   const filterInputHandler = (e) => {
     setFilterInput(e.target.value);
   };
@@ -44,15 +50,15 @@ function Characters() {
     let dataset = e.target.options[idx].value;
     setSelectedFilter(dataset);
   };
+
   return (
     <div>
       <div>Characters</div>
       <div>
-        <select id="cars" onChange={selectFilter} className="filter">
+        <select onChange={selectFilter} className="filter">
           <option value="name" selected>
             Name
           </option>
-          <option value="gender">Gender</option>
           <option value="species">Species</option>
           <option value="status">Status</option>
         </select>
@@ -63,7 +69,6 @@ function Characters() {
         />
       </div>
       <div className="shop">
-        <button onClick={() => fetchItem(nextUrl)}>Next</button>
         {items
           .filter(
             (elem) =>
@@ -83,6 +88,7 @@ function Characters() {
             </Link>
           ))}
       </div>
+      <button onClick={() => fetchItem(nextUrl)}>Next</button>
     </div>
   );
 }
