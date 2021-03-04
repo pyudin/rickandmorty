@@ -3,22 +3,34 @@ import { Link } from "react-router-dom";
 
 function Characters() {
   const [items, setItems] = useState([]);
-  const [nextUrl, setNextUrl] = useState("");
+  const [nextUrl, setNextUrl] = useState(
+    "https://rickandmortyapi.com/api/character"
+  );
 
   useEffect(() => {
-    fetchItem("https://rickandmortyapi.com/api/character");
+    fetchItem();
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const fetchItem = async (url) => {
+  const fetchItem = async () => {
     if (nextUrl === null) return;
-    const data = await fetch(url);
+    const data = await fetch(nextUrl);
     const el = await data.json();
     console.log(el);
     setItems((prevItems) => [...prevItems, ...el.results]);
     setNextUrl((prev) => {
+      console.log("prev  ", prev);
       console.log("set ", el.info.next);
       return el.info.next;
     });
+  };
+
+  const onScroll = () => {
+    let nearBottom =
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
+    console.log();
+    if (nearBottom) fetchItem();
   };
 
   return (
