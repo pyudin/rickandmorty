@@ -6,6 +6,7 @@ function Characters() {
   const [nextUrl, setNextUrl] = useState(
     "https://rickandmortyapi.com/api/character"
   );
+  const [filterInput, setFilterInput] = useState("");
 
   useEffect(() => {
     fetchItem();
@@ -33,20 +34,33 @@ function Characters() {
     if (nearBottom) fetchItem();
   };
 
+  const filterInputHandler = (e) => {
+    setFilterInput(e.target.value);
+  };
+
   return (
     <div>
       <div>Characters</div>
-
+      <div>
+        <input onChange={filterInputHandler} value={filterInput} />
+      </div>
       <div className="shop">
         <button onClick={() => fetchItem(nextUrl)}>Next</button>
-        {items.map((item) => (
-          <Link to={`/characters/${item.id}`} className="link">
-            <div className="card" key={item.id}>
-              <div>{item.name}</div>
-              <img src={item.image} alt={item.name} width="200" height="200" />
-            </div>
-          </Link>
-        ))}
+        {items
+          .filter((elem) => elem.name.toLowerCase().indexOf(filterInput) > -1)
+          .map((item) => (
+            <Link to={`/characters/${item.id}`} className="link">
+              <div className="card" key={item.id}>
+                <div>{item.name}</div>
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  width="200"
+                  height="200"
+                />
+              </div>
+            </Link>
+          ))}
       </div>
     </div>
   );
