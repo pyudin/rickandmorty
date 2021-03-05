@@ -29,7 +29,7 @@ function Locations() {
   //Infinite scroll
   const onScroll = () => {
     let nearBottom =
-      window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 300;
     if (nearBottom) fetchItem();
   };
 
@@ -50,7 +50,9 @@ function Locations() {
 
   return (
     <div>
-      <div>Locations</div>
+      <div className="title">
+        <h1>Locations</h1>
+      </div>
       <div>
         <select onChange={selectFilter} className="filter">
           <option value="name" selected>

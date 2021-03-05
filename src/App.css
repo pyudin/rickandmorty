@@ -13,8 +13,8 @@ nav {
   justify-content: space-around;
   align-items: center;
   height: 70px;
-  background-color: rgb(74, 142, 143);
-  color: aliceblue;
+  background-color: rgb(91, 144, 145);
+  color: #ffffff;
 }
 
 .nav-links {
@@ -32,11 +32,15 @@ nav {
   justify-content: space-evenly;
 }
 
+.title {
+  margin: 20px;
+}
+
 .card {
   width: 300px;
   height: 350px;
   padding: 10px;
-  background-color: rgb(204, 207, 207);
+  background-color: rgb(231, 231, 231);
   border: 1px solid;
   box-shadow: 1px 4px 5px;
   display: flex;
@@ -65,4 +69,8 @@ nav {
   padding: 5px;
   background-color: #ffffff;
   border-radius: 4px;
+}
+
+.fullcard {
+  margin: 30px 0 0 0;
 }

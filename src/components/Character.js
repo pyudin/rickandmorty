@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 function Character({ match }) {
-  const [char, setChar] = useState({});
+  const [char, setChar] = useState({ location: { name: "" } });
+
   useEffect(() => {
     fetchItem(match.params.id);
   }, []);
@@ -14,13 +15,13 @@ function Character({ match }) {
   };
 
   return (
-    <div>
-      <div>Character</div>
+    <div className="fullcard">
       <img src={char.image} alt={char.name} />
       <div>Name: {char.name}</div>
       <div>Gender: {char.gender}</div>
       <div>Species: {char.species}</div>
       <div>Status: {char.status}</div>
+      <div>Loacation: {char.location.name}</div>
     </div>
   );
 }

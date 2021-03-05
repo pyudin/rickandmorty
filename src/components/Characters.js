@@ -29,7 +29,7 @@ function Characters() {
   //Infinite scroll
   const onScroll = () => {
     let nearBottom =
-      window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 300;
     if (nearBottom) fetchItem();
   };
 
@@ -50,7 +50,9 @@ function Characters() {
 
   return (
     <div>
-      <div>Characters</div>
+      <div className="title">
+        <h1>Characters</h1>
+      </div>
       <div>
         <select onChange={selectFilter} className="filter">
           <option value="name" selected>
