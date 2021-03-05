@@ -1,54 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-function Episodes() {
-  const [items, setItems] = useState([]);
-  const [nextUrl, setNextUrl] = useState(
-    "https://rickandmortyapi.com/api/episode"
-  );
-  const [filterInput, setFilterInput] = useState("");
-  const [selectedFilter, setSelectedFilter] = useState("name");
-
-  useEffect(() => {
-    fetchItem();
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [nextUrl]);
-
-  const fetchItem = async () => {
-    if (nextUrl === null) return;
-    const data = await fetch(nextUrl);
-    const el = await data.json();
-    console.log(el.results);
-    setItems((prevItems) => [...prevItems, ...el.results]);
-    setNextUrl(el.info.next);
-  };
-
-  //Infinite scroll
-  const onScroll = () => {
-    let nearBottom =
-      window.innerHeight + window.scrollY >= document.body.offsetHeight - 300;
-    if (nearBottom) fetchItem();
-  };
-
-  // Filter
-  const filterInputHandler = (e) => {
-    setFilterInput(e.target.value);
-  };
-
-  const selectFilter = (e) => {
-    let idx = e.target.selectedIndex;
-    let dataset = e.target.options[idx].value;
-    setSelectedFilter(dataset);
-  };
-
-  const clearHandler = () => {
-    setFilterInput("");
-  };
-
+function Episodes({
+  items,
+  filterInput,
+  selectedFilter,
+  filterInputHandler,
+  selectFilter,
+  clearFilterHandler,
+}) {
   return (
     <div>
       <div className="title">
@@ -67,7 +27,7 @@ function Episodes() {
           value={filterInput}
           className="filter"
         />
-        <button className="btn-primary" onClick={clearHandler}>
+        <button className="btn-primary" onClick={clearFilterHandler}>
           Clear Filter
         </button>
       </div>
