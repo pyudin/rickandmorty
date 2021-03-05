@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Episodes from "./Episodes";
+import Episode from "./Episode";
+import Locations from "./Locations";
+import Location from "./Location";
+import Characters from "./Characters";
+import Character from "./Character";
 
 function Catalog({ url }) {
   const [items, setItems] = useState([]);
@@ -21,7 +26,6 @@ function Catalog({ url }) {
     if (nextUrl === null) return;
     const data = await fetch(nextUrl);
     const el = await data.json();
-    // console.log(el.results);
     setItems((prevItems) => [...prevItems, ...el.results]);
     setNextUrl(el.info.next);
   };
@@ -49,14 +53,55 @@ function Catalog({ url }) {
   };
 
   return (
-    <Episodes
-      items={items}
-      filterInput={filterInput}
-      selectedFilter={selectedFilter}
-      filterInputHandler={filterInputHandler}
-      selectFilter={selectFilter}
-      clearFilterHandler={clearFilterHandler}
-    ></Episodes>
+    <Router>
+      <Route
+        path="/episodes"
+        exact
+        component={() => (
+          <Episodes
+            items={items}
+            filterInput={filterInput}
+            selectedFilter={selectedFilter}
+            filterInputHandler={filterInputHandler}
+            selectFilter={selectFilter}
+            clearFilterHandler={clearFilterHandler}
+          />
+        )}
+      />
+      <Route path="/episodes/:id" exact component={Episode} />
+
+      <Route
+        path="/characters"
+        exact
+        component={() => (
+          <Characters
+            items={items}
+            filterInput={filterInput}
+            selectedFilter={selectedFilter}
+            filterInputHandler={filterInputHandler}
+            selectFilter={selectFilter}
+            clearFilterHandler={clearFilterHandler}
+          />
+        )}
+      />
+      <Route path="/characters/:id" component={Character} />
+
+      <Route
+        path="/locations"
+        exact
+        component={() => (
+          <Locations
+            items={items}
+            filterInput={filterInput}
+            selectedFilter={selectedFilter}
+            filterInputHandler={filterInputHandler}
+            selectFilter={selectFilter}
+            clearFilterHandler={clearFilterHandler}
+          />
+        )}
+      />
+      <Route path="/locations/:id" exact component={Location} />
+    </Router>
   );
 }
 
