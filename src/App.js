@@ -9,6 +9,7 @@ import Location from "./components/Location";
 import Episode from "./components/Episode";
 import About from "./components/About";
 import Main from "./components/Main";
+import Catalog from "./components/Catalog";
 
 function App() {
   return (
@@ -20,7 +21,13 @@ function App() {
         <Route path="/characters" exact component={Characters} />
         <Route path="/characters/:id" component={Character} />
 
-        <Route path="/episodes" exact component={Episodes} />
+        <Route
+          path="/episodes"
+          exact
+          component={() => (
+            <Catalog url={"https://rickandmortyapi.com/api/episode"} />
+          )}
+        />
         <Route path="/episodes/:id" exact component={Episode} />
 
         <Route path="/locations" exact component={Locations} />
