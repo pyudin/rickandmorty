@@ -10,7 +10,6 @@ function Character({ match }) {
   const fetchItem = async (id) => {
     const data = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
     const item = await data.json();
-    console.log(item);
     setChar(item);
   };
 

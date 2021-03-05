@@ -11,7 +11,6 @@ function Location({ match }) {
   const fetchItem = async (id) => {
     const data = await fetch(`https://rickandmortyapi.com/api/location/${id}`);
     const item = await data.json();
-    console.log(item);
     setLoc(item);
   };
 
@@ -24,7 +23,7 @@ function Location({ match }) {
         Residents:
         {loc.residents.map((el) => (
           <Link to={`/characters/${el.match(/\d+/)}`}>
-            <div>{el}</div>
+            <div>{`Сharacter ${el.match(/\d+/)}`}</div>
           </Link>
         ))}
       </div>

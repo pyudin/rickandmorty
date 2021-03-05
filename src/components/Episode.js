@@ -11,7 +11,6 @@ function Episode({ match }) {
   const fetchItem = async (id) => {
     const data = await fetch(`https://rickandmortyapi.com/api/episode/${id}`);
     const item = await data.json();
-    console.log(item);
     setEpis(item);
   };
 
@@ -24,7 +23,7 @@ function Episode({ match }) {
         Characters:
         {epis.characters.map((el) => (
           <Link to={`/characters/${el.match(/\d+/)}`}>
-            <div>{el}</div>
+            <div>{`Сharacter ${el.match(/\d+/)}`}</div>
           </Link>
         ))}
       </div>

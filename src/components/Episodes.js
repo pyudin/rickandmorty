@@ -9,9 +9,6 @@ function Episodes({
   selectFilter,
   clearFilterHandler,
 }) {
-  useEffect(() => {
-    console.log(items);
-  }, []);
   return (
     <div>
       <div className="title">
